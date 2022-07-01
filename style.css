@@ -1,0 +1,249 @@
+:root {
+  --cell-size: 70px;
+  --color-primary: #1fe0fa;
+  --color-success: #1dcc51;
+  --color-danger: #fc4700;
+  --color-gray: #e2e2e2;
+  --radius-normal: 5px;
+  --gap-board: 4px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+}
+
+body {
+  background-color: var(--color-primary);
+}
+
+.container {
+  display: grid;
+  place-items: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.main-menu {
+  width: 300px;
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: var(--radius-normal);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  align-items: center;
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: var(--color-gray);
+  border-radius: 1px;
+}
+
+.main-menu .menu-button {
+  display: flex;
+  gap: 12px;
+}
+
+.btn {
+  height: 40px;
+  outline: none;
+  border: none;
+  border-radius: var(--radius-normal);
+  padding-inline: 12px;
+  cursor: pointer;
+  transition: background-color .2s ease-in-out;
+}
+
+.btn.btn-success {
+  background-color: var(--color-success);
+  color: #ffffff;
+}
+
+.btn.btn-success:hover {
+  background-color: #1eb64b;
+}
+
+.btn.btn-danger {
+  background-color: var(--color-danger);
+  color: #ffffff;
+}
+
+.btn.btn-danger:hover {
+  background-color: #db4c14;
+}
+
+.board {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.info-board {
+  display: flex;
+  justify-content: space-between;
+  background-color: #ffffff;
+  border-radius: var(--radius-normal);
+  padding: 10px;
+  position: relative;
+}
+
+.player-info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: #000000;
+  z-index: 2;
+  transition: color .5s ease-in-out;
+}
+
+.info-board.x .player-info.x {
+  color: #ffffff;
+}
+
+.info-board.o .player-info.o {
+  color: #ffffff;
+}
+
+.player-name {
+  font-size: .75rem;
+}
+
+.player-info .player-icon {
+  font-weight: bold;
+}
+
+.indicator {
+  width: calc(50% - 10px);
+  height: calc(100% - 10px);
+  background-color: var(--color-primary);
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  border-radius: var(--radius-normal);
+  z-index: 1;
+  transition: transform .5s ease-in-out, background-color .5s ease-in-out;
+}
+
+.info-board.o .indicator {
+  transform: translateX(100%);
+  background-color: var(--color-danger);
+}
+
+.cells-board {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  justify-content: center;
+  gap: var(--gap-board);
+  position: relative;
+}
+
+
+.cell {
+  width: var(--cell-size);
+  aspect-ratio: 1 / 1;
+  background-color: #ffffff;
+  border-radius: 3px;
+  font-size: 2rem;
+  text-align: center;
+  line-height: var(--cell-size);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.cell.x {
+  color: var(--color-primary);
+}
+
+.cell.o {
+  color: var(--color-danger);
+}
+
+.cell.x,
+.cell.o,
+.cells-board.win .cell {
+  cursor: not-allowed;
+}
+
+.win-board-indicator {
+  width: 0;
+  height: 0;
+  background-color: var(--color-success);
+  border-radius: var(--radius-normal);
+  position: absolute;
+  transition: width .3s ease-in-out, height .3s ease-in-out;
+}
+
+.win-board-indicator.one,
+.win-board-indicator.two,
+.win-board-indicator.three {
+  width: 110%;
+  height: 5px;
+  transform: translateX(-4.5%);
+}
+
+.win-board-indicator.one {
+  top: calc((var(--cell-size) / 2) - 2px);
+}
+
+.win-board-indicator.two {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.win-board-indicator.three {
+  bottom: calc((var(--cell-size) / 2) - 2px);
+}
+
+.win-board-indicator.four,
+.win-board-indicator.five,
+.win-board-indicator.six {
+  width: 5px;
+  height: 110%;
+  transform: translateY(-4%);
+}
+
+.win-board-indicator.four {
+  left: calc((var(--cell-size) / 2) - 2px);
+}
+
+.win-board-indicator.five {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.win-board-indicator.six {
+  right: calc((var(--cell-size) / 2) - 2px);
+}
+
+.win-board-indicator.seven,
+.win-board-indicator.eight {
+  width: 150%;
+  height: 5px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  transform-origin: center center;
+}
+
+.win-board-indicator.seven {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.win-board-indicator.eight {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.info-score {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  background-color: #ffffff;
+}
