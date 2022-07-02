@@ -23,6 +23,13 @@ const swapIndicator = () => {
   infoBoard.classList.toggle('o');
 }
 
+const checkDraw = () => {
+  const cells =  Array.from(document.querySelectorAll('.cell'));
+  return cells.every((cell) => {
+    return cell.classList.contains('x') || cell.classList.contains('o');
+  });
+}
+
 const checkWin = () => {
   const cells = document.querySelectorAll('.cell');
   let indicatorWinIndex;
@@ -42,6 +49,7 @@ const checkWin = () => {
   return {
     isWin: isPlayerWin,
     indicatorWinIndex,
+    isDraw: checkDraw(),
   }
 }
 
@@ -58,18 +66,20 @@ const renderIndicatorWin = ({ combination }) => {
 
 
 const checkState = () => {
-  const { isWin: isPlayerWin, indicatorWinIndex } = checkWin();
+  const { isWin: isPlayerWin, indicatorWinIndex, isDraw } = checkWin();
 
-  if (isPlayerWin) {
-    isWin = true;
+  if (isPlayerWin || isDraw) {
+    if (isPlayerWin) {
+      isWin = true;
 
-    if (isCrossTurn) scorePlayerX++;
-    else scorePlayerO++;
+      if (isCrossTurn) scorePlayerX++;
+      else scorePlayerO++;
 
-    renderIndicatorWin({ combination: indicatorWinIndex });  
-    updateCellsBoardWin();
-    
-    setTimeout(() => renderWinInfo(), 1500);
+      renderIndicatorWin({ combination: indicatorWinIndex });  
+      updateCellsBoardWin();
+    }
+
+    setTimeout(() => renderResultInfo({ isDraw }), isDraw? 500 : 1500);
 
     return;
   }
@@ -137,13 +147,14 @@ const handleMatchAgain = () => {
   renderBoardGame();
 }
 
-const renderWinInfo = () => {
+const renderResultInfo = ({ isDraw }) => {
   const container = document.querySelector('.container');
 
   const mainMenu = document.createElement('div');
   mainMenu.classList.add('main-menu');
 
-  const title = createTitle({ text: `${isCrossTurn ? 'Player 1' : 'Player 2'} Win` });
+  const textTitle = isDraw ? 'Draw Game' : `${isCrossTurn ? 'Player 1' : 'Player 2 '} win`;
+  const title = createTitle({ text: textTitle });
   const divider = createDivider();
   const scoreInfo = createScoreInfo();
   const buttonToMainMenu = createButton({
